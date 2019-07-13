@@ -10,24 +10,49 @@ jets = [
     {'side':'134', 'parking':2, 'fuel':3.1, 'ordnance':'SCL-3', 'up':False},
     {'side':'155', 'parking':12, 'fuel':15.1, 'ordnance':'SCL-3', 'up':True}
 ]
-jets.sort(key=lambda i: i['parking'])
+
+def order_jets(jets):
+    jets = sorted(jets,key=lambda i: i['side'])
+    return jets
+
+def fill_jets(jet_list):
+    jet_list = jet_list[:]
+    exists = False
+    for i in range(1,31):
+        for jet in jet_list:
+            if jet['parking']==i:
+                exists = True
+                break
+        if not exists:
+            jet_list.append({'side':'-','parking':i})
+        exists = False
+
+    jet_list.sort(key=lambda i: i['parking'])
+
+    return jet_list
+
+
+
 
 
 @app.route('/')
 @app.route('/schedule')
-@app.route('/jets')
 def hello_world():
     return render_template('index.html')
 
 
 @app.route('/parking')
 def parking_map():
-    return render_template('parking.html',jets=jets)
+    return render_template('parking.html',jets=fill_jets(jets))
 
 
+@app.route('/jets')
+def jet_list():
+    return render_template('jets.html', jets=order_jets(jets) )
 
+@app.route("/edit/<i>")
+def edit_jet(i):
 
-
-
+    return render_template('edit.html', jet=order_jets(jets)[int(i)])
 
 

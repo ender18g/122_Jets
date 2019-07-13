@@ -2,27 +2,51 @@ body {
     background-color:  #6C94D4;
     color: #C0C3CA;
     width: 100vw;
+    margin: 0;
+    padding: 0;
+
 }
 
 a{
     color: #4B4E53;
 }
-
+/* 
 #cover_photo{
     width: 100vw;
-}
+} */
 
-.jet-container {
-    background-color: #C0C3CA;
-    color: #4B4E53;
-    border: 5px solid #6C94D4;
-}
 
-.card-columns {
-    @include media-breakpoint-only(lg) {
-      column-count: 3;
-    }
-    @include media-breakpoint-only(xl) {
-      column-count: 3;
-    }
+#cover_photo{
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+      
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+      
+    /* Set up positioning */
+    position: relative;
+    top: 0;
+    left: 0;
   }
+  
+#cover{
+    height:100%;
+    width:100%;
+}
+
+#edit.card {
+    max-width: 200px;
+    border: 53px solid #6C94D4;
+}
+
+.parking.card {
+    min-width: 9%;
+    margin: 0 .5%;
+}
+
+.jets.card {
+    min-width: 48%;
+    margin: 0 1%;
+}

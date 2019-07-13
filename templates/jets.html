@@ -6,7 +6,7 @@
 
         {% for jet in jets %}
 
-        <div class="parking card text-center text-white
+        <div class="jets card text-center text-white
         {% if jet.side != '-' %}
             {% if jet.up %} 
                 {% if jet.fuel >15 %} 
@@ -23,9 +23,9 @@
         {% endif %}
             m-1 shadow-lg">
 
-            <div class="text-left card-header">{{ jet.parking }}</div>
+            <h3 class="card-header">{{ jet.side }}  <a href="/edit/{{loop.index-1}}">edit</a></h1>
             <div class="card-body">
-                <h2 class="card-title">{{ jet.side }}</h5>
+                <p class="card-title">Parking: {{ jet.parking }}</p>
                 <p class="card-text">Fuel: {{jet.fuel}}</p>
                 <p class="card-text">Ord: {{jet.ordnance}}</p>
             </div>
