@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid card-columns">
+
+        {% for jet in jets %}
+
+        <div class="card text-center text-white {% if jet.fuel >15 %} bg-success {%else %} bg-warning {%endif%}m-1 shadow-lg" style="max-width: 18rem;">
+            <div class="card-header">{{ jet.parking }}</div>
+            <div class="card-body">
+                <h2 class="card-title">{{ jet.side }}</h5>
+                <p class="card-text">Fuel: {{jet.fuel}}</p>
+                <p class="card-text">Ord: {{jet.ordnance}}</p>
+            </div>
+        </div>
+
+
+        {% endfor %}
+
+</div>
+{% endblock %}
