@@ -2,11 +2,15 @@
 
 {% block content %}
 
+<form action="/jets/add" method="POST">
+    <button class="m-3 btn btn-primary btn-lg">Add Jet</button>
+</form>
+
 <div class="card-deck">
 
-        {% for jet in jets %}
+    {% for jet in jets %}
 
-        <div class="jets card text-center text-white
+    <div class="jets card text-center text-white
         {% if jet.side != '-' %}
             {% if jet.up %} 
                 {% if jet.fuel >15 %} 
@@ -22,17 +26,22 @@
             bg-dark
         {% endif %}
             m-1 shadow-lg">
-
-            <h3 class="card-header">{{ jet.side }}  <a href="/edit/{{loop.index-1}}">edit</a></h1>
-            <div class="card-body">
-                <p class="card-title">Parking: {{ jet.parking }}</p>
-                <p class="card-text">Fuel: {{jet.fuel}}</p>
-                <p class="card-text">Ord: {{jet.ordnance}}</p>
-            </div>
+        <div class="container">
+            <h3 class="row card-header">
+                <div class="col-2"><a class="text-left" href="/edit/{{loop.index-1}}"><i class="far fa-edit"></i></a></div>
+                <div class="col-8">{{ jet.side }}</div>
+                <div class="col-2"><a class="text-right" href="/remove/{{loop.index-1}}"><i class="far fa-trash-alt"></i></a></div>
+            </h3>
         </div>
+        <div class="card-body">
+            <p class="card-title">Parking: {{ jet.parking }}</p>
+            <p class="card-text">Fuel: {{jet.fuel}}</p>
+            <p class="card-text">Ord: {{jet.ordnance}}</p>
+        </div>
+    </div>
 
 
-        {% endfor %}
+    {% endfor %}
 
 </div>
 {% endblock %}
