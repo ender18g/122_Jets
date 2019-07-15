@@ -1,7 +1,7 @@
 [
   {
     "side": 1,
-    "parking": 3,
+    "parking": 6,
     "fuel": 15.4,
     "ordnance": "SCL-4",
     "up": true,
@@ -17,7 +17,7 @@
   },
   {
     "side": 123,
-    "parking": 0,
+    "parking": 22,
     "fuel": 16.1,
     "ordnance": "SCL-2",
     "up": true,
@@ -25,7 +25,7 @@
   },
   {
     "side": 124,
-    "parking": 1,
+    "parking": 0,
     "fuel": 15.1,
     "ordnance": "SCL-3",
     "up": true,
@@ -41,15 +41,15 @@
   },
   {
     "side": 144,
-    "parking": 0,
-    "fuel": 0.0,
+    "parking": 12,
+    "fuel": 13.1,
     "ordnance": "SCL-3",
-    "up": false,
+    "up": true,
     "serial": 5
   },
   {
     "side": 155,
-    "parking": 21,
+    "parking": 23,
     "fuel": 15.1,
     "ordnance": "SCL-3",
     "up": true,
@@ -57,7 +57,7 @@
   },
   {
     "side": 433,
-    "parking": 0,
+    "parking": 14,
     "fuel": 15.1,
     "ordnance": "SCL-3",
     "up": false,
@@ -65,7 +65,7 @@
   },
   {
     "side": 877,
-    "parking": 29,
+    "parking": 24,
     "fuel": 16.1,
     "ordnance": "SCL-3",
     "up": true,

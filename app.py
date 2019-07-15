@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import json
 app = Flask(__name__)
+app.testing = True
 
 def load_jets():
     try: 
@@ -69,7 +70,7 @@ def hello_world():
 @app.route('/parking')
 def parking_map():
     [parked_jets,flying_jets] = fill_jets(jets)
-    return render_template('parking.html',jets=parked_jets)
+    return render_template('parking.html',jets=parked_jets, all_jets = jets)
 
 
 @app.route('/jets', methods=['GET'])
@@ -95,6 +96,15 @@ def fly_jet(i):
     save_jets(jets)
     return redirect("/parking")
 
+@app.route("/park/<i>",methods=['POST'])
+def park_jet(i):
+    global jets
+    jets[int(request.form.get("serial_landed"))].update({'parking':int(i)})
+    jets = order_jets(jets)
+    save_jets(jets)
+    return redirect("/parking")
+
+
 
 @app.route("/edit/<i>",methods=['POST','GET'])
 def edit_jet(i):
@@ -114,3 +124,4 @@ def edit_jet(i):
         return redirect("/jets")
 
 
+app.run(debug=True)

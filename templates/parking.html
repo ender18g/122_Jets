@@ -27,13 +27,26 @@
         {% endif %}
             ">
 
-            <div class="text-left card-header">{{ jet.parking }}<a href="/fly/{{jet.serial}}"><i style="color: white;"class="px-2 fas fa-plane-departure"></i>
-
-            </a></div>
+            <div class="text-left card-header">{{ jet.parking }}
+                {% if jet.side != '-' %}
+                <a href="/fly/{{jet.serial}}"><i class="text-primary px-2 fas fa-plane-departure"></i></a>
+                {%endif%}
+            </div>
             <div class="card-body p-1">
+                {% if jet.side == '-' %}
+                <form action="/park/{{jet.parking}}" method="POST">
+                        <select name="serial_landed" onchange="this.form.submit()">
+                            <option value="">-</option>
+                            {% for landed in all_jets %}
+                            <option value="{{landed.serial}}">{{landed.side}}</option>
+                            {% endfor %}
+                        </select>
+                </form>
+                {% else %}
                 <h2 class="card-title">{{ jet.side }}</h5>
+                {% endif %}    
                     <p class="card-text">Fuel: {{jet.fuel}}</p>
-                    <p class="card-text">Ord: {{jet.serial}}</p>
+                    <p class="card-text">Ord: {{jet.ordnance}}</p>
             </div>
         </div>
 
