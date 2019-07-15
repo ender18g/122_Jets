@@ -1,7 +1,7 @@
 [
   {
     "side": 1,
-    "parking": 6,
+    "parking": 28,
     "fuel": 15.4,
     "ordnance": "SCL-4",
     "up": true,
