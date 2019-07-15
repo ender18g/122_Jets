@@ -10,10 +10,6 @@ body {
 a{
     color: #4B4E53;
 }
-/* 
-#cover_photo{
-    width: 100vw;
-} */
 
 
 #cover_photo{
@@ -36,17 +32,5 @@ a{
     width:100%;
 }
 
-#edit.card {
-    max-width: 200px;
-    border: 53px solid #6C94D4;
-}
 
-.parking.card {
-    min-width: 9%;
-    margin: 0 .5%;
-}
 
-.jets.card {
-    min-width: 48%;
-    margin: 0 1%;
-}

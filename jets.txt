@@ -1,0 +1,74 @@
+[
+  {
+    "side": 1,
+    "parking": 3,
+    "fuel": 15.4,
+    "ordnance": "SCL-4",
+    "up": true,
+    "serial": 0
+  },
+  {
+    "side": 2,
+    "parking": 2,
+    "fuel": 3.1,
+    "ordnance": "SCL-3",
+    "up": false,
+    "serial": 1
+  },
+  {
+    "side": 123,
+    "parking": 0,
+    "fuel": 16.1,
+    "ordnance": "SCL-2",
+    "up": true,
+    "serial": 2
+  },
+  {
+    "side": 124,
+    "parking": 1,
+    "fuel": 15.1,
+    "ordnance": "SCL-3",
+    "up": true,
+    "serial": 3
+  },
+  {
+    "side": 126,
+    "parking": 0,
+    "fuel": 4.1,
+    "ordnance": "SCL-3",
+    "up": true,
+    "serial": 4
+  },
+  {
+    "side": 144,
+    "parking": 0,
+    "fuel": 0.0,
+    "ordnance": "SCL-3",
+    "up": false,
+    "serial": 5
+  },
+  {
+    "side": 155,
+    "parking": 21,
+    "fuel": 15.1,
+    "ordnance": "SCL-3",
+    "up": true,
+    "serial": 6
+  },
+  {
+    "side": 433,
+    "parking": 0,
+    "fuel": 15.1,
+    "ordnance": "SCL-3",
+    "up": false,
+    "serial": 7
+  },
+  {
+    "side": 877,
+    "parking": 29,
+    "fuel": 16.1,
+    "ordnance": "SCL-3",
+    "up": true,
+    "serial": 8
+  }
+]

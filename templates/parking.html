@@ -2,37 +2,43 @@
 
 {% block content %}
 
-<div class="card-deck">
-
+<div class="card-deck container-fluid my-1 mx-0 p-0">
+    <div class="row mx-auto">
         {% for jet in jets %}
 
-        <div class="parking card text-center text-white
+        <div style="min-width: 10%;" class="p-0 mx-0 my-1 card text-center text-white
         {% if jet.side != '-' %}
-            {% if jet.up %} 
-                {% if jet.fuel >15 %} 
-                    bg-success 
-                {%else %}
-                    bg-warning 
-                {%endif%}
-        
+            {% if jet.parking %}
+                {% if jet.up %} 
+                    {% if jet.fuel >15 %} 
+                        bg-success 
+                    {%else %}
+                        bg-warning 
+                    {%endif%}
+            
+                {% else %}
+                    bg-danger
+                {% endif %}
             {% else %}
-                bg-danger
-            {% endif %}
+                bg-primary
+            {% endif %}    
         {% else %}
             bg-dark
         {% endif %}
-            m-1 shadow-lg">
+            ">
 
-            <div class="text-left card-header">{{ jet.parking }}</div>
-            <div class="card-body">
+            <div class="text-left card-header">{{ jet.parking }}<a href="/fly/{{jet.serial}}"><i style="color: white;"class="px-2 fas fa-plane-departure"></i>
+
+            </a></div>
+            <div class="card-body p-1">
                 <h2 class="card-title">{{ jet.side }}</h5>
-                <p class="card-text">Fuel: {{jet.fuel}}</p>
-                <p class="card-text">Ord: {{jet.ordnance}}</p>
+                    <p class="card-text">Fuel: {{jet.fuel}}</p>
+                    <p class="card-text">Ord: {{jet.serial}}</p>
             </div>
         </div>
 
 
         {% endfor %}
-
+    </div>
 </div>
 {% endblock %}
