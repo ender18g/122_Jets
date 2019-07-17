@@ -2,11 +2,11 @@
 
 {% block content %}
 
-    <button id = "flyingBtn" class="m-1 btn btn-primary">Show Flying Jets</button>
-    <button id = "upBtn" class="m-1 btn btn-success">Show Up Jets</button>
-    <button id = "fuelBtn" class="m-1 btn btn-warning">Show Fueling Jets</button>
-    <button id = "downBtn" class="m-1 btn btn-danger">Show Down Jets</button>
-    <button id = "allBtn" class="m-1 btn btn-light">Show All</button>
+<button id="flyingBtn" class="m-1 btn btn-primary">Show Flying Jets</button>
+<button id="upBtn" class="m-1 btn btn-success">Show Up Jets</button>
+<button id="fuelBtn" class="m-1 btn btn-warning">Show Fueling Jets</button>
+<button id="downBtn" class="m-1 btn btn-danger">Show Down Jets</button>
+<button id="allBtn" class="m-1 btn btn-light">Show All</button>
 
 </hr>
 
@@ -17,9 +17,9 @@
         <div style="min-width: 200px;" class="col-sm-4 col-md-3 col-lg-2">
 
             <div class="rounded m-1 p-1 shadow-lg jets text-center text-white
-            {% if jet.side != '-' %}
-            {% if jet.parking %}
-                {% if jet.up %} 
+        {% if jet.side != 0 %}
+            {% if not jet.flying %}
+                {% if jet.status %} 
                     {% if jet.fuel >15 %} 
                         bg-success 
                     {%else %}
@@ -61,30 +61,30 @@
 
 <script>
 
-$(document).ready(function(){
-  $("#flyingBtn").click(function(){
-    $(".jets").parent().hide();
-    $(".bg-primary").parent().show();
-  });
+    $(document).ready(function () {
+        $("#flyingBtn").click(function () {
+            $(".jets").parent().hide();
+            $(".bg-primary").parent().show();
+        });
 
-  $("#upBtn").click(function(){
-    $(".jets").parent().hide();
-    $(".bg-success").parent().show();
-  });
+        $("#upBtn").click(function () {
+            $(".jets").parent().hide();
+            $(".bg-success").parent().show();
+        });
 
-  $("#downBtn").click(function(){
-    $(".jets").parent().hide();
-    $(".bg-danger").parent().show();
-  });
+        $("#downBtn").click(function () {
+            $(".jets").parent().hide();
+            $(".bg-danger").parent().show();
+        });
 
-  $("#fuelBtn").click(function(){
-    $(".jets").parent().hide();
-    $(".bg-warning").parent().show();
-  });
+        $("#fuelBtn").click(function () {
+            $(".jets").parent().hide();
+            $(".bg-warning").parent().show();
+        });
 
-  $("#allBtn").click(function(){
-    $(".jets").parent().show();
-  });
-});
+        $("#allBtn").click(function () {
+            $(".jets").parent().show();
+        });
+    });
 </script>
 {% endblock %}

@@ -2,15 +2,15 @@
 
 {% block content %}
 
-<div class="card-deck container-fluid my-1 mx-0 p-0">
-    <div class="row mx-auto">
+<div style="min-width: 100%" class="card-deck container-fluid my-1 mx-0 p-0">
+    <div style="min-width: 100%" class="row mx-auto">
         {% for jet in jets %}
 
-        <div style="min-width: 10%;" class="p-0 mx-0 my-1 card text-center text-white
+        <div style="min-width: 12.5%;" class="p-0 mx-0 my-1 card text-center text-white
         {% if jet.side != '-' %}
-            {% if jet.parking %}
-                {% if jet.up %} 
-                    {% if jet.fuel >15 %} 
+            {% if not jet.flying %}
+                {% if jet.status %} 
+                    {% if jet.fuel and jet.dta %} 
                         bg-success 
                     {%else %}
                         bg-warning 
@@ -28,25 +28,52 @@
             ">
 
             <div class="text-left card-header">{{ jet.parking }}
-                {% if jet.side != '-' %}
-                <a href="/fly/{{jet.serial}}"><i class="text-primary px-2 fas fa-plane-departure"></i></a>
+            {%if jet.side != '-' %}
+                {% if jet.flying %}
+                <a href="/land/{{jet.id}}"><i class="text-white pl-4 pr-2 fas fa-plane-arrival"></i></a>
                 {%endif%}
+                {% if not jet.flying %}
+                <a href="/fly/{{jet.id}}"><i class="text-white pl-4 pr-2 fas fa-plane-departure"></i></a>
+                {%endif%}
+                <a href="/edit/{{jet.id}}"><i class="px-w text-white far fa-edit"></i></a>
+            {%endif%}
             </div>
+
+
             <div class="card-body p-1">
                 {% if jet.side == '-' %}
-                <form action="/park/{{jet.parking}}" method="POST">
-                        <select name="serial_landed" onchange="this.form.submit()">
-                            <option value="">-</option>
-                            {% for landed in all_jets %}
-                            <option value="{{landed.serial}}">{{landed.side}}</option>
-                            {% endfor %}
-                        </select>
+                <form  class="py-2" action="/park/{{jet.parking}}" method="POST">
+                    <select name="serial_landed" onchange="this.form.submit()">
+                        <option value="">-</option>
+                        {% for jet in jets %}
+                        <option value="{{jet.id}}">{{jet.side}}</option>
+                        {% endfor %}
+                    </select>
                 </form>
                 {% else %}
                 <h2 class="card-title">{{ jet.side }}</h5>
-                {% endif %}    
-                    <p class="card-text">Fuel: {{jet.fuel}}</p>
+                {% endif %}
+
+
+                {%if jet.side != '-' %}
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="fuel" value="True" {% if jet.fuel %}
+                            checked {%endif%}>
+                        <label class="form-check-label" for="inlineCheckbox1">Fuel</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="dta" value="True" {% if jet.dta %} checked
+                            {%endif%}>
+                        <label class="form-check-label" for="inlineCheckbox1">DTA</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="status" value="True" {% if jet.status %}
+                            checked {%endif%}>
+                        <label class="form-check-label" for="inlineCheckbox1">Up</label>
+                    </div>
                     <p class="card-text">Ord: {{jet.ordnance}}</p>
+                {%endif%}
             </div>
         </div>
 
