@@ -43,10 +43,12 @@
             <div class="card-body p-1">
                 {% if jet.side == '-' %}
                 <form  class="py-2" action="/park/{{jet.parking}}" method="POST">
-                    <select name="serial_landed" onchange="this.form.submit()">
+                    <select name="id_landed" onchange="this.form.submit()">
                         <option value="">-</option>
                         {% for jet in jets %}
+                        {%if jet.side != '-' %}
                         <option value="{{jet.id}}">{{jet.side}}</option>
+                        {%endif%}
                         {% endfor %}
                     </select>
                 </form>
@@ -57,22 +59,27 @@
 
                 {%if jet.side != '-' %}
 
+                <form  class="py-2" action="/park_edit/{{jet.id}}" method="POST">
+
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="fuel" value="True" {% if jet.fuel %}
-                            checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox1">Fuel</label>
+                        <input onchange="this.form.submit()" class="form-check-input" type="checkbox" name="fuel"{% if jet.fuel %}
+                            checked{%endif%}>
+
+                        <label class="form-check-label" for="fuel">Fuel</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="dta" value="True" {% if jet.dta %} checked
+                        <input onchange="this.form.submit()" class="form-check-input" type="checkbox" name="dta"{% if jet.dta %} checked
                             {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox1">DTA</label>
+                        <label class="form-check-label" for="dta">DTA</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="status" value="True" {% if jet.status %}
-                            checked {%endif%}>
-                        <label class="form-check-label" for="inlineCheckbox1">Up</label>
+                        <input onchange="this.form.submit()" class="form-check-input" type="checkbox" name="status" {% if jet.status %}
+                            checked{%endif%}>
+                        <label class="form-check-label" for="status">Up</label>
+                        </form>
                     </div>
                     <p class="card-text">Ord: {{jet.ordnance}}</p>
+
                 {%endif%}
             </div>
         </div>
