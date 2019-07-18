@@ -11,6 +11,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 ## Setup the JET Class / Table in the Database:
@@ -19,28 +20,33 @@ db = SQLAlchemy(app)
 class Jet(db.Model):
     __tablename__ = 'jets'
     id = db.Column(db.Integer, primary_key=True)
-    side = db.Column(db.Integer, unique=True, index=True)
+    side = db.Column(db.Integer, index=True)
     parking = db.Column(db.Integer, default = 0)
-    fuel = db.Column(db.Boolean, default = True)
-    dta = db.Column(db.Boolean, default= True)
+    fuel = db.Column(db.Boolean, default = False)
+    dta = db.Column(db.Boolean, default= False)
     notes = db.Column(db.String(512), nullable=True)
     flying = db.Column(db.Boolean, default = False)
-    ordnance = db.Column(db.String(64), default="SCL-0")
-    status = db.Column(db.Boolean, default = True)
+    ordnance = db.Column(db.String(64), default="")
+    status = db.Column(db.Boolean, default = False)
 
     def __repr__(self):
         return str(self.side)
 
-def seed_db ():
-    for i in range(1,15):
+def seed_db():
+    for i in range(1,20):
         new_jet = Jet(id=i, side=randint(400,700),parking=randint(1,num_parking_spots), fuel=choice([True,False]),
-        dta=choice([True,False]),flying=choice([True,False]))
+        dta=choice([True,False]),flying=choice([True,False,False,False]),status=choice([True,True,True,False]))
         db.session.add(new_jet)
         db.session.commit()
     return True
 
+def insert_jet(side_num):
+    new_jet = Jet(id=Jet.query.order_by(Jet.id.desc()).first().id+1, side=side_num)
+    db.session.add(new_jet)
+    return None
+
 def get_jets ():
-    return Jet.query.all()
+    return Jet.query.order_by(Jet.side).all()
 
 def fill_parking():
     jet_list = get_jets()
@@ -55,13 +61,11 @@ def fill_parking():
         if not exists:
             park_list.append({"side":"-","parking":i})
         exists = False
-            
     return park_list
 
-def turn_bool(my_string):
-    if my_string in ['off','false',None,'none','None','False']:
-        return False
-    return True
+
+
+
 
 ## Make the DB table (if it hasnt been created)
 db.drop_all()
@@ -89,14 +93,15 @@ def jet_list():
 @app.route('/jets/add', methods=['POST'])  
 def add_jet():      
     ## Make a new jet and insert into database
-    return redirect("/edit/" + str(len(jets)-1))
+    insert_jet(int(request.form.get("new_side")))
+    return redirect("/jets")
 
 
 @app.route("/remove/<i>",methods=['GET'])
 def remove_jet(i):
     ## remove the selected jet and delete from the database
-
-    return render_template('jets.html', jets=get_jets() )
+    Jet.query.filter_by(id=int(i)).delete()
+    return redirect('/jets')
 
 @app.route("/fly/<i>",methods=['GET'])
 def fly_jet(i):
@@ -135,24 +140,49 @@ def park_edit(i):
         Jet.query.get(int(i)).status = True
     else:
         Jet.query.get(int(i)).status = False
-
+    Jet.query.get(int(i)).ordnance = request.form.get("ordnance")
 
     return redirect("/parking")
 
 
+@app.route("/jet_edit/<i>",methods=['POST'])
+def jet_edit(i):
+    ## Get the id and info from the parking form and update database
+
+    print(request.form)
+
+    if request.form.get("fuel"):
+        Jet.query.get(int(i)).fuel = True
+    else:
+        Jet.query.get(int(i)).fuel = False
+    if request.form.get("dta"):
+        Jet.query.get(int(i)).dta = True
+    else:
+        Jet.query.get(int(i)).dta = False
+    if request.form.get("status"):
+        Jet.query.get(int(i)).status = True
+    else:
+        Jet.query.get(int(i)).status = False
+    
+    Jet.query.get(int(i)).ordnance = request.form.get("ordnance")
+    Jet.query.get(int(i)).parking = int(request.form.get("parking"))
+
+    return redirect("/jets")
 
 
 
 
 
 
-@app.route("/edit/<i>",methods=['POST','GET'])
-def edit_jet(i):
-    if request.method == 'GET':
-        return render_template('edit.html', jet=jets[int(i)],index = int(i))
-    if request.method == 'POST':
 
-        return redirect("/jets")
+
+# @app.route("/edit/<i>",methods=['POST','GET'])
+# def edit_jet(i):
+#     if request.method == 'POST':
+#         return redirect("/jets")
+#     if request.method == 'GET':
+#         return render_template('edit.html', jet=Jet.query.get(int(i)))
+        
 
 
 app.run(debug=True)
