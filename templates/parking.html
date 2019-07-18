@@ -3,10 +3,10 @@
 {% block content %}
 
 <div style="min-width: 100%" class="card-deck container-fluid my-1 mx-0 p-0">
-    <div style="min-width: 100%" class="row mx-auto">
+    <div class="row mx-auto">
         {% for jet in jets %}
 
-        <div style="min-width: 12.5%;" class="p-0 mx-0 my-1 card text-center text-white
+        <div class="park-card p-0 mx-0 my-1 card text-center text-white
         {% if jet.side != '-' %}
             {% if not jet.flying %}
                 {% if jet.status %} 
@@ -79,7 +79,7 @@
                         
                         
                     </div>
-                    <div class="col p-0">
+                    <div class="col px-1">
                             <input name="ordnance" onchange="this.form.submit()" type="text" class="form-control form-control-sm" placeholder="Ordnance" value="{{jet.ordnance}}">
                     </div>
                 </form>

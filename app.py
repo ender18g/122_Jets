@@ -3,8 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from random import randint, choice
 import os
 
+
 app = Flask(__name__)
+
 num_parking_spots = 8*3
+messages = ['Is jet 567 ready?', 'no, its being fueled', "awesome work mx"]
 
 ##Setup the Database:
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -67,6 +70,8 @@ def fill_parking():
 
 
 
+
+
 ## Make the DB table (if it hasnt been created)
 # db.drop_all()
 # db.create_all()
@@ -77,18 +82,18 @@ def fill_parking():
 @app.route('/')
 @app.route('/schedule')
 def hello_world():
-    return render_template('index.html')
+    return render_template('index.html',messages=messages)
 
 ## Lists the parking spots available and fills in jets
 @app.route('/parking')
 def parking_map():
-    return render_template('parking.html',jets=fill_parking())
+    return render_template('parking.html',jets=fill_parking(),messages=messages)
 
 
 @app.route('/jets', methods=['GET'])
 def jet_list():
     if request.method == 'GET':
-        return render_template('jets.html', jets=get_jets() )
+        return render_template('jets.html', jets=get_jets(),messages=messages )
 
 @app.route('/jets/add', methods=['POST'])  
 def add_jet():      
@@ -171,19 +176,13 @@ def jet_edit(i):
     return redirect("/jets")
 
 
-
-
-
-
-
-
-# @app.route("/edit/<i>",methods=['POST','GET'])
-# def edit_jet(i):
-#     if request.method == 'POST':
-#         return redirect("/jets")
-#     if request.method == 'GET':
-#         return render_template('edit.html', jet=Jet.query.get(int(i)))
+@app.route("/message",methods=['POST'])
+def add_message():
+    global messages
+    ## add on new messages to the message list
+    messages.append(request.form.get("new_message"))
+    messages = messages[-25:]
+    cur_path = request.form.get("cur_path")
+    return redirect(cur_path)
         
 
-
-# app.run(debug=True)

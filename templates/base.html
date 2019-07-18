@@ -19,7 +19,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/69cef6d01d.js"></script>
-    <meta http-equiv="refresh" content="30"/>
+    <meta http-equiv="refresh" content="30" />
 
 </head>
 
@@ -32,21 +32,64 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/schedule">Schedule<span class="sr-only">(current)</span></a>
+                <li class="nav-item {%if request.path == '/schedule'%}active{%endif%}">
+                    <a class="nav-link" href="/schedule">Schedule</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {%if request.path == '/parking'%}active{%endif%}"">
                     <a class="nav-link" href="/parking">Parking</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {%if request.path == '/jets'%}active{%endif%}"">
                     <a class="nav-link" href="/jets">Jets</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    {% block content %}
-    {% endblock %}
+    <div class="container-fluid m-0 p-0">
+        <div class="m-0 p-0 row">
+
+            <div class="chatbox d-none d-lg-inline col-0 col-lg-2 m-0 p-1">
+                <!-- HERE IS THE CHAT STUFF  -->
+
+                <div class="d-flex flex-column">
+
+                    <div class="border rounded align-items-start bg-white text-dark">
+                        {%for msg in messages%}
+                        <p class="m-0">{{msg}}</p>
+                        {%endfor%}
+                    </div>
+
+
+                    <form class="mt-2" action="/message" method="POST">
+                        <div class="d-flex align-items-end">
+                            <!-- <div class="col">
+      <input type="text" class="form-control" placeholder="Name">
+    </div> -->
+                            <div class="col p-0 ">
+                                <input type="text" name="new_message" class="form-control" placeholder="Message" >
+                                <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}" >
+                            </div>
+                            <div class="p-0 m-0 form-row">
+                                <button class="btn btn-success btn-lsm">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                    <button class="btn btn-primary btn-lsm m-2">Clear Messages</button>
+                </div>
+
+
+
+
+                <!-- DONE WITH THE CHAT STUFF -->
+            </div>
+
+
+            <div class="col-lg-10 col-12 p-1">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 
 
 </body>

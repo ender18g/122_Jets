@@ -33,4 +33,13 @@ a{
 }
 
 
+.park-card {
+    min-width: 12.5%;
+}
 
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+    .park-card {
+      min-width: 50%;
+    }
+  }
