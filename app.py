@@ -68,9 +68,9 @@ def fill_parking():
 
 
 ## Make the DB table (if it hasnt been created)
-db.drop_all()
-db.create_all()
-seed_db()
+# db.drop_all()
+# db.create_all()
+# seed_db()
 
 
 ## Only shows the cover page for the site
@@ -185,4 +185,4 @@ def jet_edit(i):
         
 
 
-app.run(debug=True)
+# app.run(debug=True)
