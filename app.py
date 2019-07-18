@@ -181,7 +181,15 @@ def add_message():
     global messages
     ## add on new messages to the message list
     messages.append(request.form.get("new_message"))
-    messages = messages[-25:]
+    messages = messages[-20:]
+    cur_path = request.form.get("cur_path")
+    return redirect(cur_path)
+
+@app.route("/message/delete",methods=['POST'])
+def delete_messages():
+    global messages
+    ## add on new messages to the message list
+    messages = []
     cur_path = request.form.get("cur_path")
     return redirect(cur_path)
         

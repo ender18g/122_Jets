@@ -32,9 +32,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item {%if request.path == '/schedule'%}active{%endif%}">
+                <!-- <li class="nav-item {%if request.path == '/schedule'%}active{%endif%}">
                     <a class="nav-link" href="/schedule">Schedule</a>
-                </li>
+                </li> -->
                 <li class="nav-item {%if request.path == '/parking'%}active{%endif%}"">
                     <a class="nav-link" href="/parking">Parking</a>
                 </li>
@@ -55,7 +55,7 @@
 
                     <div class="border rounded align-items-start bg-white text-dark">
                         {%for msg in messages%}
-                        <p class="m-0">{{msg}}</p>
+                        <p class="my-2 p-0">{{msg}}</p>
                         {%endfor%}
                     </div>
 
@@ -74,7 +74,10 @@
                             </div>
                         </div>
                     </form>
+                    <form class="mt-2" action="/message/delete" method="POST">
                     <button class="btn btn-primary btn-lsm m-2">Clear Messages</button>
+                    <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}" >
+                </form>
                 </div>
 
 
