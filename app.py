@@ -113,6 +113,7 @@ def fly_jet(i):
 def land_jet(i):
     ## Mark the selected jet as Flying
     Jet.query.get(int(i)).flying = False
+    Jet.query.get(int(i)).fuel = False
     return redirect("/parking")
 
 
