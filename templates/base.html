@@ -19,7 +19,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/69cef6d01d.js"></script>
-    <meta http-equiv="refresh" content="30" />
+    <meta http-equiv="refresh" content="{{settings.refresh}}" />
 
 </head>
 
@@ -41,6 +41,9 @@
                 <li class="nav-item {%if request.path == '/jets'%}active{%endif%}"">
                     <a class="nav-link" href="/jets">Jets</a>
                 </li>
+                <li class="nav-item {%if request.path == '/settings'%}active{%endif%}"">
+                    <a class="nav-link" href="/settings">Settings</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -54,7 +57,7 @@
                 <div class="d-flex flex-column">
 
                     <div class="border rounded align-items-start bg-white text-dark">
-                        {%for msg in messages%}
+                        {%for msg in settings.messages%}
                         <p class="my-2 p-0">{{msg}}</p>
                         {%endfor%}
                     </div>

@@ -6,8 +6,10 @@ import os
 
 app = Flask(__name__)
 
-num_parking_spots = 8*3
-messages = ['Is jet 567 ready?', 'no, its being fueled', "awesome work mx"]
+settings = {'refresh':30,'rows':3, 'per_row':8, 'msg_lines':15, 
+    'messages':['Is jet 567 ready?', 'no, its being fueled', "awesome work mx"]}
+
+
 
 ##Setup the Database:
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -35,6 +37,8 @@ class Jet(db.Model):
     def __repr__(self):
         return str(self.side)
 
+def num_spots():
+    return settings['rows']*settings['per_row']
 def seed_db():
     for i in range(1,20):
         new_jet = Jet(id=i, side=randint(400,700),parking=randint(1,num_parking_spots), fuel=choice([True,False]),
@@ -55,7 +59,7 @@ def fill_parking():
     jet_list = get_jets()
     park_list = []
     exists = False
-    for i in range(1,num_parking_spots+1):
+    for i in range(1,num_spots()+1):
         for jet in jet_list:
             if jet.parking == i:
                 exists=True
@@ -82,18 +86,18 @@ def fill_parking():
 @app.route('/')
 @app.route('/schedule')
 def hello_world():
-    return render_template('index.html',messages=messages)
+    return render_template('index.html',settings=settings)
 
 ## Lists the parking spots available and fills in jets
 @app.route('/parking')
 def parking_map():
-    return render_template('parking.html',jets=fill_parking(),messages=messages)
+    return render_template('parking.html',jets=fill_parking(),settings=settings)
 
 
 @app.route('/jets', methods=['GET'])
 def jet_list():
     if request.method == 'GET':
-        return render_template('jets.html', jets=get_jets(),messages=messages )
+        return render_template('jets.html', jets=get_jets(),settings=settings)
 
 @app.route('/jets/add', methods=['POST'])  
 def add_jet():      
@@ -178,19 +182,27 @@ def jet_edit(i):
 
 @app.route("/message",methods=['POST'])
 def add_message():
-    global messages
     ## add on new messages to the message list
-    messages.append(request.form.get("new_message"))
-    messages = messages[-20:]
+    settings['messages'].append(request.form.get("new_message"))
+    settings['messages'] = settings['messages'][-settings['msg_lines']:]
     cur_path = request.form.get("cur_path")
     return redirect(cur_path)
 
 @app.route("/message/delete",methods=['POST'])
 def delete_messages():
-    global messages
     ## add on new messages to the message list
-    messages = []
+    settings['messages']=[]
     cur_path = request.form.get("cur_path")
     return redirect(cur_path)
         
+@app.route("/settings",methods=['GET','POST'])
+def get_settings():
+    if request.method == 'POST':
+        for k in ['rows', 'refresh','per_row','msg_lines']:
+            settings[k]=int(request.form.get(k))
+        if settings['refresh']<5:
+            settings['refresh']=5 
+        return redirect('/settings')
+    if request.method == 'GET':
+        return render_template('settings.html', settings=settings)
 

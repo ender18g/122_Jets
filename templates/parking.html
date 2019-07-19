@@ -6,7 +6,7 @@
     <div class="row mx-auto">
         {% for jet in jets %}
 
-        <div class="park-card p-0 mx-0 my-1 card text-center text-white
+        <div style="min-width:{{100/settings.per_row}}%" class="park-card p-0 mx-0 my-1 card text-center text-white
         {% if jet.side != '-' %}
             {% if not jet.flying %}
                 {% if jet.status %} 
