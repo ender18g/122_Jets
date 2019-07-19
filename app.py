@@ -2,13 +2,9 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from random import randint, choice
 import os
-
+import pickle
 
 app = Flask(__name__)
-
-settings = {'refresh':30,'rows':3, 'per_row':8, 'msg_lines':15, 
-    'messages':['Is jet 567 ready?', 'no, its being fueled', "awesome work mx"]}
-
 
 
 ##Setup the Database:
@@ -71,10 +67,18 @@ def fill_parking():
     return park_list
 
 
+def save_settings(settings):
+    with open('settings.pickle',"wb") as f:
+        pickle.dump(settings,f)
+    return True
+
+def load_settings():    
+    with open("settings.pickle","rb") as f:
+        settings = pickle.load(f)
+    return settings
 
 
-
-
+settings = load_settings()
 
 ## Make the DB table (if it hasnt been created)
 # db.drop_all()
@@ -186,6 +190,7 @@ def add_message():
     settings['messages'].append(request.form.get("new_message"))
     settings['messages'] = settings['messages'][-settings['msg_lines']:]
     cur_path = request.form.get("cur_path")
+    save_settings(settings)
     return redirect(cur_path)
 
 @app.route("/message/delete",methods=['POST'])
@@ -193,6 +198,7 @@ def delete_messages():
     ## add on new messages to the message list
     settings['messages']=[]
     cur_path = request.form.get("cur_path")
+    save_settings(settings)
     return redirect(cur_path)
         
 @app.route("/settings",methods=['GET','POST'])
@@ -202,6 +208,7 @@ def get_settings():
             settings[k]=int(request.form.get(k))
         if settings['refresh']<5:
             settings['refresh']=5 
+        save_settings(settings)
         return redirect('/settings')
     if request.method == 'GET':
         return render_template('settings.html', settings=settings)
