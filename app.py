@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, render_template_string, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from random import randint, choice
 import os
@@ -76,6 +76,12 @@ def load_settings():
     with open("settings.pickle","rb") as f:
         settings = pickle.load(f)
     return settings
+
+def getHtml():
+    text = '''{%for msg in settings.messages%}
+                <p class="my-2 p-0">{{msg}}</p>
+                {%endfor%}'''
+    return render_template_string(text, settings=settings)
 
 
 try: settings = load_settings()
@@ -215,3 +221,7 @@ def get_settings():
     if request.method == 'GET':
         return render_template('settings.html', settings=settings)
 
+@app.route("/_update_messages")
+def sendMessagesList():
+    rendered = getHtml()
+    return rendered

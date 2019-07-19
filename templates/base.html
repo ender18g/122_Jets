@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="static/style.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -36,13 +35,13 @@
                     <a class="nav-link" href="/schedule">Schedule</a>
                 </li> -->
                 <li class="nav-item {%if request.path == '/parking'%}active{%endif%}"">
-                    <a class="nav-link" href="/parking">Parking</a>
+                    <a class=" nav-link" href="/parking">Parking</a>
                 </li>
                 <li class="nav-item {%if request.path == '/jets'%}active{%endif%}"">
-                    <a class="nav-link" href="/jets">Jets</a>
+                    <a class=" nav-link" href="/jets">Jets</a>
                 </li>
                 <li class="nav-item {%if request.path == '/settings'%}active{%endif%}"">
-                    <a class="nav-link" href="/settings">Settings</a>
+                    <a class=" nav-link" href="/settings">Settings</a>
                 </li>
             </ul>
         </div>
@@ -56,7 +55,7 @@
 
                 <div class="d-flex flex-column">
 
-                    <div class="border rounded align-items-start bg-white text-dark">
+                    <div id="panelBody" class="border rounded align-items-start bg-white text-dark">
                         {%for msg in settings.messages%}
                         <p class="my-2 p-0">{{msg}}</p>
                         {%endfor%}
@@ -69,8 +68,8 @@
       <input type="text" class="form-control" placeholder="Name">
     </div> -->
                             <div class="col p-0 ">
-                                <input type="text" name="new_message" class="form-control" placeholder="Message" >
-                                <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}" >
+                                <input type="text" name="new_message" class="form-control" placeholder="Message">
+                                <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}">
                             </div>
                             <div class="p-0 m-0 form-row">
                                 <button class="btn btn-success btn-lsm">Send</button>
@@ -78,9 +77,9 @@
                         </div>
                     </form>
                     <form class="mt-2" action="/message/delete" method="POST">
-                    <button class="btn btn-primary btn-lsm m-2">Clear Messages</button>
-                    <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}" >
-                </form>
+                        <button class="btn btn-primary btn-lsm m-2">Clear Messages</button>
+                        <input type="text" name="cur_path" class="d-none form-control" value="{{request.path}}">
+                    </form>
                 </div>
 
 
@@ -97,6 +96,28 @@
         </div>
     </div>
 
+
+
+    <script>
+        var interval = 3000; //3 seconds
+
+        function recvMessage() {
+            $.ajax({
+                url: "/_update_messages",
+                type: "GET",
+                success: function (result) {
+                    $("#panelBody").html(result);
+                },
+                complete: function (result) {
+                    setTimeout(recvMessage, interval);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            setTimeout(recvMessage, interval);
+        });
+    </script>
 
 </body>
 
