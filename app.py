@@ -78,7 +78,9 @@ def load_settings():
     return settings
 
 
-settings = load_settings()
+try: settings = load_settings()
+except: settings = {'refresh':30, 'rows':3, 'per_row':8, 'msg_lines':15,
+        'messages':[]}
 
 ## Make the DB table (if it hasnt been created)
 # db.drop_all()
